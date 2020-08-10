@@ -13,12 +13,8 @@ import java.util.UUID;
 *       In this case I generate the id manually as UUID string in a constructor.
 *       in order to autoincrement id use int, Long or UUID
 *       and annotation @GeneratedValue(strategy = GenerationType.IDENTITY)
-*   3.  Define the class Book, that includes the Category by a composition,
-*       as a private Set<Book> books  and the annotation @OneToMany
-*   4.  Include books in all constructors as books = new HashSet<Book>
 *   5.  Generate in  all constructors an id for a new obiect
-*   6.  Create a tricky setter for books
-*   7.  books getter as usual
+
 * */
 
 
@@ -31,25 +27,19 @@ public class Category {
     private String name;
     private String description;
 
-    // 3rd step
-    @OneToMany(
-            mappedBy = "сategory",
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY
-    )
-    private Set<Book> books;
+
 
 
     public Category() {
         this.id = UUID.randomUUID().toString();  //  5th step - generate an id
-        books = new HashSet<>();  //  4th step
+
     }
 
     public Category(String name, String desc) {
         this.id = UUID.randomUUID().toString();   //  5th step - generate an id
         this.name = name;
         this.description = desc;
-        books = new HashSet<>();   // 4th step
+
     }
 
 
@@ -77,17 +67,9 @@ public class Category {
         this.description = description;
     }
 
-    public Set<Book> getBooks() {
-        return books;
-    }
 
-    // Tricky setter
-   public void setBooks(Set<Book> books) {
-        this.books = books;
-        for (Book book : books) {
-            book.setCategory(this);
-        }
-    }
+
+
 
 
 }
