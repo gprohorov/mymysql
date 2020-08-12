@@ -1,6 +1,11 @@
 package pro.edu.mymysql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity   // 1st step
 public class Book {
@@ -11,12 +16,21 @@ public class Book {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Category category;
 
 
     public Book() {
+        this.id = UUID.randomUUID().toString();
+    }
 
+    public Book(String author, String name, Category category) {
+        this.id = UUID.randomUUID().toString();
+        this.author = author;
+        this.name = name;
+        this.category = category;
     }
 
     public String getId() {
@@ -47,8 +61,13 @@ public class Book {
         return category;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-        category.getBooks().add(this);
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id='" + id + '\'' +
+                ", author='" + author + '\'' +
+                ", name='" + name + '\'' +
+                ", category=" + category +
+                '}';
     }
 }

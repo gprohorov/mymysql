@@ -2,6 +2,7 @@ package pro.edu.mymysql;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -68,8 +69,23 @@ public class Category {
     }
 
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 
+    @OneToMany(mappedBy = "category")
+    private Collection<Book> book;
 
+    public Collection<Book> getBook() {
+        return book;
+    }
 
-
+    public void setBook(Collection<Book> book) {
+        this.book = book;
+    }
 }
