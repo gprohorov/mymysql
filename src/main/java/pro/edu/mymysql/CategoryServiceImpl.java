@@ -1,27 +1,25 @@
 package pro.edu.mymysql;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.edu.mymysql.interfaces.ICategoryService;
-import pro.edu.mymysql.interfaces.IGenericService;
+import pro.edu.mymysql.interfaces.IGenreService;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService {
-    List<Category> categories = new ArrayList<>(
+public class CategoryServiceImpl implements IGenreService {
+    List<Genre> genres = new ArrayList<>(
             Arrays.asList(
 
-                    new Category("Fiction", "descr1"),
-                    new Category("Documental", "it2"),
-                    new Category("Fantasy", "i3"),
-                    new Category("Poetry", "item4"),
-                    new Category("Education", "item5")
+                    new Genre("Fiction", "descr1"),
+                    new Genre("Documental", "it2"),
+                    new Genre("Fantasy", "i3"),
+                    new Genre("Poetry", "item4"),
+                    new Genre("Education", "item5")
             )
     );
+/*
 
     @Autowired
     CategoryRepository repository;
@@ -34,29 +32,35 @@ public class CategoryServiceImpl implements ICategoryService {
         repository.saveAll(categories);
 
     }
+*/
 
     @Override
-    public Category create(Category category) {
+    public Genre create(Genre genre) {
+
+        genres.add(genre);
+        return genre;
+    }
+
+    @Override
+    public Genre get(String id) {
+
+
+        return this.getAll().stream().filter(item -> item.getId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    public Genre update(Genre genre) {
         return null;
     }
 
     @Override
-    public Category get(String id) {
+    public Genre delete(String id) {
         return null;
     }
 
     @Override
-    public Category update(Category category) {
-        return null;
-    }
-
-    @Override
-    public Category delete(String id) {
-        return null;
-    }
-
-    @Override
-    public List<Category> getAll() {
-        return categories ;
+    public List<Genre> getAll() {
+        return genres ;
     }
 }
